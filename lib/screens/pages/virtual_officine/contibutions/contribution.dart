@@ -25,9 +25,13 @@ class _ScreenContributionsState extends State<ScreenContributions> {
   bool stateLoading = false;
   @override
   Widget build(BuildContext context) {
-    final contributionBloc = BlocProvider.of<ContributionBloc>(context, listen: true).state;
+    final contributionBloc =
+        BlocProvider.of<ContributionBloc>(context, listen: true).state;
     return Column(children: [
-      HedersComponent(keyNotification: widget.keyNotification, title: 'Mis Aportes', stateBell: true),
+      HedersComponent(
+          keyNotification: widget.keyNotification,
+          title: 'Mis Aportes',
+          stateBell: true),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
@@ -37,11 +41,15 @@ class _ScreenContributionsState extends State<ScreenContributions> {
                 ? Row(
                     children: [
                       if (contributionBloc.existContribution)
-                        if (contributionBloc.contribution!.payload.hasContributionsActive!)
-                          documentContribution(() => getContributionActive(), 'Certificación de Activo'),
+                        if (contributionBloc
+                            .contribution!.payload.hasContributionsActive!)
+                          documentContribution(() => getContributionActive(),
+                              'Certificación de Activo'),
                       if (contributionBloc.existContribution)
-                        if (contributionBloc.contribution!.payload.hasContributionsPassive!)
-                          documentContribution(() => getContributionPasive(), 'Certificación de Pasivo')
+                        if (contributionBloc
+                            .contribution!.payload.hasContributionsPassive!)
+                          documentContribution(() => getContributionPasive(),
+                              'Certificación de Pasivo')
                     ],
                   )
                 : Center(
@@ -51,7 +59,8 @@ class _ScreenContributionsState extends State<ScreenContributions> {
                     height: 20,
                   )),
             if (contributionBloc.existContribution)
-              const Text('Mis Aportes por año:', style: TextStyle(fontWeight: FontWeight.bold)),
+              const Text('Mis Aportes por año:',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 20,
             ),
@@ -70,7 +79,8 @@ class _ScreenContributionsState extends State<ScreenContributions> {
   }
 
   Widget documentContribution(Function() onPressed, String text) {
-    final contributionBloc = BlocProvider.of<ContributionBloc>(context, listen: true).state;
+    final contributionBloc =
+        BlocProvider.of<ContributionBloc>(context, listen: true).state;
     return contributionBloc.existContribution
         ? Expanded(
             child: Container(
@@ -78,7 +88,8 @@ class _ScreenContributionsState extends State<ScreenContributions> {
               child: GestureDetector(
                 onTap: () => onPressed(),
                 child: ContainerComponent(
-                  color: AdaptiveTheme.of(context).theme.scaffoldBackgroundColor,
+                  color:
+                      AdaptiveTheme.of(context).theme.scaffoldBackgroundColor,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -96,28 +107,32 @@ class _ScreenContributionsState extends State<ScreenContributions> {
 
   getContributionPasive() async {
     final authService = Provider.of<AuthService>(context, listen: false);
-    final biometric = biometricUserModelFromJson(await authService.readBiometric());
+    final biometric =
+        biometricUserModelFromJson(await authService.readBiometric());
     setState(() => stateLoading = true);
     if (!mounted) return;
-    var response = await serviceMethod(
-        mounted, context, 'get', null, servicePrintContributionPasive(biometric.affiliateId!), true, false);
+    var response = await serviceMethod(mounted, context, 'get', null,
+        servicePrintContributionPasive(biometric.affiliateId!), true, false);
     setState(() => stateLoading = false);
     if (response != null) {
-      String pathFile = await saveFile('Contributions', 'contribucionesPasivo.pdf', response.bodyBytes);
+      String pathFile = await saveFile(
+          'Contributions', 'contribucionesPasivo.pdf', response.bodyBytes);
       await OpenFile.open(pathFile);
     }
   }
 
   getContributionActive() async {
     final authService = Provider.of<AuthService>(context, listen: false);
-    final biometric = biometricUserModelFromJson(await authService.readBiometric());
+    final biometric =
+        biometricUserModelFromJson(await authService.readBiometric());
     setState(() => stateLoading = true);
     if (!mounted) return;
-    var response = await serviceMethod(
-        mounted, context, 'get', null, servicePrintContributionActive(biometric.affiliateId!), true, false);
+    var response = await serviceMethod(mounted, context, 'get', null,
+        servicePrintContributionActive(biometric.affiliateId!), true, false);
     setState(() => stateLoading = false);
     if (response != null) {
-      String pathFile = await saveFile('Contributions', 'contribucionesActivo.pdf', response.bodyBytes);
+      String pathFile = await saveFile(
+          'Contributions', 'contribucionesActivo.pdf', response.bodyBytes);
       await OpenFile.open(pathFile);
     }
   }

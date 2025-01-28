@@ -1,34 +1,36 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-bool stateApp() => dotenv.env['STATE_PROD']=='true';
+bool stateApp() => dotenv.env['STATE_PROD'] == 'true';
 
+String? hostPVT =
+    stateApp() ? dotenv.env['HOST_PVT_PROD'] : dotenv.env['HOST_PVT_DEV'];
 
-String? hostPVT = stateApp()? dotenv.env['HOST_PVT_PROD']: dotenv.env['HOST_PVT_DEV'];
+String? hostSTI =
+    stateApp() ? dotenv.env['HOST_STI_PROD'] : dotenv.env['HOST_STI_DEV'];
 
-String? hostSTI = stateApp()? dotenv.env['HOST_STI_PROD']: dotenv.env['HOST_STI_DEV'];
-
-String? reazon = dotenv.env['reazon'];//v1
-String? reazonAffiliate = dotenv.env['reazonAffiliate'];//affiliate
-String? reazonQr = dotenv.env['reazonQr'];//global
-
-
-
+String? reazon = dotenv.env['reazon']; //v1
+String? reazonAffiliate = dotenv.env['reazonAffiliate']; //affiliate
+String? reazonQr = dotenv.env['reazonQr']; //global
 
 //AUTH
-String serviceAuthSession(int? affiliateId) => '$hostPVT/$reazon/auth/${affiliateId??''}';
+String serviceAuthSession(int? affiliateId) =>
+    '$hostPVT/$reazon/auth/${affiliateId ?? ''}';
 //CONTACTS
 String serviceGetContacts() => '$hostPVT/$reazon/city';
 //PRIVACY POLICY
-String serviceGetPrivacyPolicy() => 'https://www.muserpol.gob.bo/index.php/transparencia/terminos-y-condiciones-de-uso-aplicacion-movil';
+String serviceGetPrivacyPolicy() =>
+    'https://www.muserpol.gob.bo/index.php/transparencia/terminos-y-condiciones-de-uso-aplicacion-movil';
 //HISTORY
 String serviceGetEconomicComplements(int page, bool current) =>
     '$hostPVT/$reazon/economic_complement/?page=$page&current=$current';
 //GET VERIFIED DOCUMENT
 String serviceGetMessageFace() => '$hostPVT/$reazon/message/verified';
 //GET PROCESS ENROLLED
-String serviceProcessEnrolled(String? deviceId) => '$hostPVT/$reazon/liveness/${deviceId!=null?'?device_id=$deviceId':''}';
+String serviceProcessEnrolled(String? deviceId) =>
+    '$hostPVT/$reazon/liveness/${deviceId != null ? '?device_id=$deviceId' : ''}';
 //GET PERMISION PROCEDURE
-String serviceGetProcessingPermit(int affiliateId) => '$hostPVT/$reazon/liveness/$affiliateId';
+String serviceGetProcessingPermit(int affiliateId) =>
+    '$hostPVT/$reazon/liveness/$affiliateId';
 //SEND IMAGES FOR PROCEDURE
 String serviceSendImagesProcedure() => '$hostPVT/$reazon/economic_complement';
 //PRINT ECONOMIC COMPLEMENT
@@ -37,40 +39,52 @@ String serviceGetPDFEC(int economicComplementId) =>
 //GET OBSERVATIONS
 String serviceGetObservation(int affiliateId) =>
     '$hostPVT/$reazon/affiliate/$affiliateId/observation';
-String serviceEcoComProcedure(int ecoComId) => '$hostPVT/$reazon/eco_com_procedure/$ecoComId';
+String serviceEcoComProcedure(int ecoComId) =>
+    '$hostPVT/$reazon/eco_com_procedure/$ecoComId';
 //GET VERSION
-String servicePostVersion()=>'$hostPVT/$reazon/version';
+String servicePostVersion() => '$hostPVT/$reazon/version';
 //////////////////////////////////////////////////
 /////////////OFICINA VIRTUAL/////////////////////
 ////////////////////////////////////////////////
 // QR
-String serviceGetQr(String info)=> '$hostSTI/$reazonQr/procedure_qr/$info';
+String serviceGetQr(String info) => '$hostSTI/$reazonQr/procedure_qr/$info';
 // AUTH
-String serviceAuthSessionOF()=>'$hostSTI/$reazonAffiliate/auth';
+String serviceAuthSessionOF() => '$hostSTI/$reazonAffiliate/auth';
 // CHANGE PASSWORD
-String serviceChangePasswordOF()=>'$hostSTI/$reazonAffiliate/change_password';
+String serviceChangePasswordOF() => '$hostSTI/$reazonAffiliate/change_password';
 // FORGOT PASSWORD
-String serviceForgotPasswordOF()=>'$hostSTI/app/send_code_reset_password';
+String serviceForgotPasswordOF() => '$hostSTI/app/send_code_reset_password';
 // FORGOT PASSWORD SEND CODE
-String serviceSendCodeOF()=>'$hostSTI/app/reset_password';
+String serviceSendCodeOF() => '$hostSTI/app/reset_password';
 //////////////////////////////////////////////////
 /////////////APORTES/////////////////////
 ////////////////////////////////////////////////
 
 // APORTES
-String serviceContributions(int affiliateId)=>'$hostSTI/app/all_contributions/$affiliateId';
+String serviceContributions(int affiliateId) =>
+    '$hostSTI/app/all_contributions/$affiliateId';
 //PRINT APORTES PASIVO
-String servicePrintContributionPasive(int affiliateId)=>'$hostSTI/app/contributions_passive/$affiliateId';
+String servicePrintContributionPasive(int affiliateId) =>
+    '$hostSTI/app/contributions_passive/$affiliateId';
 //PRINT APORTES ACTIVO
-String servicePrintContributionActive(int affiliateId)=>'$hostSTI/app/contributions_active/$affiliateId';
+String servicePrintContributionActive(int affiliateId) =>
+    '$hostSTI/app/contributions_active/$affiliateId';
 
 //////////////////////////////////////////////////
 /////////////PRSTAMOS/////////////////////
 ////////////////////////////////////////////////
-
 //PRESTAMOS
-String serviceLoans(int affiliateId)=> '$hostSTI/app/get_information_loan/$affiliateId';
+String serviceLoans(int affiliateId) =>
+    '$hostSTI/app/get_information_loan/$affiliateId';
 //PRINT PLAN DE PAGOS
-String servicePrintLoans(int loanId)=> '$hostSTI/app/loan/$loanId/print/plan';
+String servicePrintLoans(int loanId) => '$hostSTI/app/loan/$loanId/print/plan';
 //PRINT KARDEX
-String servicePrintKadex(int loanId)=>'$hostSTI/app/loan/$loanId/print/kardex';
+String servicePrintKadex(int loanId) =>
+    '$hostSTI/app/loan/$loanId/print/kardex';
+
+//////////////////////////////////////////////////
+/////////////CALCULADORA/////////////////////
+////////////////////////////////////////////////
+String newCalculator() => '$hostSTI/app/information_calculator/';
+String listModalities() => '$hostSTI/app/listModalities/';
+String calculatorLoan() => '$hostSTI/app/newCalculatorLoan/';

@@ -22,8 +22,14 @@ import 'package:muserpol_pvt/services/services.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-Future<dynamic> serviceMethod(bool mounted, BuildContext context, String method, Map<String, dynamic>? body,
-    String urlAPI, bool accessToken, bool errorState) async {
+Future<dynamic> serviceMethod(
+    bool mounted,
+    BuildContext context,
+    String method,
+    Map<String, dynamic>? body,
+    String urlAPI,
+    bool accessToken,
+    bool errorState) async {
   final Map<String, String> headers = {
     "Content-Type": "application/json",
   };
@@ -37,12 +43,15 @@ Future<dynamic> serviceMethod(bool mounted, BuildContext context, String method,
     }
   }
   try {
-
-    final result = await InternetAddress.lookup(dotenv.env['STATE_PROD'] == 'true'? 'pvt.muserpol.gob.bo': 'google.com');
+    final result = await InternetAddress.lookup(
+        dotenv.env['STATE_PROD'] == 'true'
+            ? 'pvt.muserpol.gob.bo'
+            : 'google.com');
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
       var url = Uri.parse(urlAPI);
       final ioc = HttpClient();
-      ioc.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+      ioc.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
       final http = IOClient(ioc);
       debugPrint('==========================================');
       debugPrint('== method $method');
@@ -52,7 +61,10 @@ Future<dynamic> serviceMethod(bool mounted, BuildContext context, String method,
       debugPrint('==========================================');
       switch (method) {
         case 'get':
-          return await http.get(url, headers: headers).timeout(const Duration(seconds: 40)).then((value) {
+          return await http
+              .get(url, headers: headers)
+              .timeout(const Duration(seconds: 40))
+              .then((value) {
             debugPrint('statusCode ${value.statusCode}');
             debugPrint('value ${value.body}');
             switch (value.statusCode) {
@@ -67,11 +79,14 @@ Future<dynamic> serviceMethod(bool mounted, BuildContext context, String method,
           }).catchError((err) {
             debugPrint('errA $err');
             if ('$err'.contains('html')) {
-              callDialogAction(context, 'Tenemos un problema con nuestro servidor, intente luego');
-            } else if ('$err' == 'Software caused connection abort' || '$err' == 'Connection reset by peer') {
+              callDialogAction(context,
+                  'Tenemos un problema con nuestro servidor, intente luego');
+            } else if ('$err' == 'Software caused connection abort' ||
+                '$err' == 'Connection reset by peer') {
               callDialogAction(context, 'Verifique su conexión a Internet');
             } else {
-              callDialogAction(context, 'Lamentamos los inconvenientes, inténtalo de nuevo');
+              callDialogAction(
+                  context, 'Lamentamos los inconvenientes, inténtalo de nuevo');
             }
             return null;
           });
@@ -94,16 +109,22 @@ Future<dynamic> serviceMethod(bool mounted, BuildContext context, String method,
           }).catchError((err) {
             debugPrint('errA $err');
             if ('$err'.contains('html')) {
-              callDialogAction(context, 'Tenemos un problema con nuestro servidor, intente luego');
-            } else if ('$err' == 'Software caused connection abort' || '$err' == 'Connection reset by peer') {
+              callDialogAction(context,
+                  'Tenemos un problema con nuestro servidor, intente luego');
+            } else if ('$err' == 'Software caused connection abort' ||
+                '$err' == 'Connection reset by peer') {
               callDialogAction(context, 'Verifique su conexión a Internet');
             } else {
-              callDialogAction(context, 'Lamentamos los inconvenientes, inténtalo de nuevo');
+              callDialogAction(
+                  context, 'Lamentamos los inconvenientes, inténtalo de nuevo');
             }
             return null;
           });
         case 'delete':
-          return await http.delete(url, headers: headers).timeout(const Duration(seconds: 40)).then((value) {
+          return await http
+              .delete(url, headers: headers)
+              .timeout(const Duration(seconds: 40))
+              .then((value) {
             debugPrint('statusCode ${value.statusCode}');
             debugPrint('value ${value.body}');
             switch (value.statusCode) {
@@ -116,11 +137,14 @@ Future<dynamic> serviceMethod(bool mounted, BuildContext context, String method,
           }).catchError((err) {
             debugPrint('errA $err');
             if ('$err'.contains('html')) {
-              callDialogAction(context, 'Tenemos un problema con nuestro servidor, intente luego');
-            } else if ('$err' == 'Software caused connection abort' || '$err' == 'Connection reset by peer') {
+              callDialogAction(context,
+                  'Tenemos un problema con nuestro servidor, intente luego');
+            } else if ('$err' == 'Software caused connection abort' ||
+                '$err' == 'Connection reset by peer') {
               callDialogAction(context, 'Verifique su conexión a Internet');
             } else {
-              callDialogAction(context, 'Lamentamos los inconvenientes, inténtalo de nuevo');
+              callDialogAction(
+                  context, 'Lamentamos los inconvenientes, inténtalo de nuevo');
             }
             return null;
           });
@@ -141,11 +165,14 @@ Future<dynamic> serviceMethod(bool mounted, BuildContext context, String method,
           }).catchError((err) {
             debugPrint('errA $err');
             if ('$err'.contains('html')) {
-              callDialogAction(context, 'Tenemos un problema con nuestro servidor, intente luego');
-            } else if ('$err' == 'Software caused connection abort' || '$err' == 'Connection reset by peer') {
+              callDialogAction(context,
+                  'Tenemos un problema con nuestro servidor, intente luego');
+            } else if ('$err' == 'Software caused connection abort' ||
+                '$err' == 'Connection reset by peer') {
               callDialogAction(context, 'Verifique su conexión a Internet');
             } else {
-              callDialogAction(context, 'Lamentamos los inconvenientes, inténtalo de nuevo');
+              callDialogAction(
+                  context, 'Lamentamos los inconvenientes, inténtalo de nuevo');
             }
             return null;
           });
@@ -154,7 +181,8 @@ Future<dynamic> serviceMethod(bool mounted, BuildContext context, String method,
   } on TimeoutException catch (e) {
     debugPrint('errB $e');
     if (!mounted) return;
-    return callDialogAction(context, 'Tenemos un problema con nuestro servidor, intente luego');
+    return callDialogAction(
+        context, 'Tenemos un problema con nuestro servidor, intente luego');
   } on SocketException catch (e) {
     debugPrint('errC $e');
     if (!mounted) return;
@@ -176,23 +204,29 @@ Future<dynamic> serviceMethod(bool mounted, BuildContext context, String method,
 
 void callDialogAction(BuildContext context, String message) {
   showDialog(
-      barrierDismissible: false, context: context, builder: (BuildContext context) => DialogAction(message: message));
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) => DialogAction(message: message));
 }
 
 confirmDeleteSession(bool mounted, BuildContext context, bool voluntary) async {
   final procedureBloc = BlocProvider.of<ProcedureBloc>(context, listen: false);
   final authService = Provider.of<AuthService>(context, listen: false);
   final userBloc = BlocProvider.of<UserBloc>(context, listen: false);
-  final contributionBloc = BlocProvider.of<ContributionBloc>(context, listen: false);
+  final contributionBloc =
+      BlocProvider.of<ContributionBloc>(context, listen: false);
   final loanBloc = BlocProvider.of<LoanBloc>(context, listen: false);
   final filesState = Provider.of<FilesState>(context, listen: false);
-  final tabProcedureState = Provider.of<TabProcedureState>(context, listen: false);
+  final tabProcedureState =
+      Provider.of<TabProcedureState>(context, listen: false);
   final processingState = Provider.of<ProcessingState>(context, listen: false);
 
   if (voluntary) {
-    final biometric = biometricUserModelFromJson(await authService.readBiometric());
+    final biometric =
+        biometricUserModelFromJson(await authService.readBiometric());
     if (!mounted) return;
-    await serviceMethod(mounted, context, 'delete', null, serviceAuthSession(biometric.affiliateId!), true, false);
+    await serviceMethod(mounted, context, 'delete', null,
+        serviceAuthSession(biometric.affiliateId!), true, false);
   }
   for (var element in filesState.files) {
     filesState.updateFile(element.id!, null);
@@ -211,7 +245,10 @@ confirmDeleteSession(bool mounted, BuildContext context, bool voluntary) async {
 
 Future<bool> checkVersion(bool mounted, BuildContext context) async {
   try {
-    final result = await InternetAddress.lookup(dotenv.env['STATE_PROD'] == 'true' ? 'pvt.muserpol.gob.bo' : 'google.com');
+    final result = await InternetAddress.lookup(
+        dotenv.env['STATE_PROD'] == 'true'
+            ? 'pvt.muserpol.gob.bo'
+            : 'google.com');
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
       final Map<String, dynamic> data = {'version': dotenv.env['version']};
       if (Platform.isIOS) {
@@ -221,7 +258,8 @@ Future<bool> checkVersion(bool mounted, BuildContext context) async {
         data['store'] = dotenv.env['storeAndroid'];
       }
       if (!mounted) return false;
-      var response = await serviceMethod(mounted, context, 'post', data, servicePostVersion(), false, false);
+      var response = await serviceMethod(
+          mounted, context, 'post', data, servicePostVersion(), false, false);
       if (response != null) {
         if (!json.decode(response.body)['error']) {
           if (!mounted) return false;
@@ -231,10 +269,13 @@ Future<bool> checkVersion(bool mounted, BuildContext context) async {
               builder: (context) => ComponentAnimate(
                   child: DialogOneFunction(
                       title: json.decode(response.body)['message'],
-                      message: 'Para mejorar la experiencia, Porfavor actualiza la nueva versión',
+                      message:
+                          'Para mejorar la experiencia, Porfavor actualiza la nueva versión',
                       textButton: 'Actualizar',
                       onPressed: () async {
-                        launchUrl(Uri.parse(json.decode(response.body)['data']['url_store']),
+                        launchUrl(
+                            Uri.parse(json.decode(response.body)['data']
+                                ['url_store']),
                             mode: LaunchMode.externalApplication);
                       })));
         }

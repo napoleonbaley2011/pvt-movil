@@ -50,13 +50,16 @@ class _PageSliderState extends State<PageSlider> {
               LiquidSwipe(
                 pages: liquidPages,
                 positionSlideIcon: 0.8,
-              slideIconWidget: const Icon(Icons.arrow_back_ios,color: Colors.white,),
-              onPageChangeCallback: pageChangeCallback,
-              waveType: WaveType.liquidReveal,
-              fullTransitionValue: 880,
-              // enableSideReveal: true,
-              enableLoop: true,
-              ignoreUserGestureWhileAnimating: true,
+                slideIconWidget: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ),
+                onPageChangeCallback: pageChangeCallback,
+                waveType: WaveType.liquidReveal,
+                fullTransitionValue: 880,
+                // enableSideReveal: true,
+                enableLoop: true,
+                ignoreUserGestureWhileAnimating: true,
               ),
               Padding(
                 padding: const EdgeInsets.all(20),
@@ -65,7 +68,8 @@ class _PageSliderState extends State<PageSlider> {
                     const Expanded(child: SizedBox()),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: List<Widget>.generate(liquidPages.length, _buildDot),
+                      children:
+                          List<Widget>.generate(liquidPages.length, _buildDot),
                     ),
                   ],
                 ),
@@ -76,7 +80,8 @@ class _PageSliderState extends State<PageSlider> {
             onPressed: () => _showModalInside(),
             label: const Text(
               'EMPEZAR',
-              style: TextStyle(color: Colors.white,  fontWeight: FontWeight.w500),
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
             ),
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

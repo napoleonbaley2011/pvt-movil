@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-ContributionModel contributionModelFromJson(String str) => ContributionModel.fromJson(json.decode(str));
+ContributionModel contributionModelFromJson(String str) =>
+    ContributionModel.fromJson(json.decode(str));
 
-String contributionModelToJson(ContributionModel data) => json.encode(data.toJson());
+String contributionModelToJson(ContributionModel data) =>
+    json.encode(data.toJson());
 
 class ContributionModel {
   ContributionModel({
@@ -30,7 +32,8 @@ class ContributionModel {
         payload: payload ?? this.payload,
       );
 
-  factory ContributionModel.fromJson(Map<String, dynamic> json) => ContributionModel(
+  factory ContributionModel.fromJson(Map<String, dynamic> json) =>
+      ContributionModel(
         error: json["error"],
         message: json["message"],
         payload: Payload.fromJson(json["payload"]),
@@ -84,8 +87,10 @@ class Payload {
     List<ContributionsTotal>? contributionsTotal,
   }) =>
       Payload(
-        hasContributionsActive: hasContributionsActive ?? this.hasContributionsActive,
-        hasContributionsPassive: hasContributionsPassive ?? this.hasContributionsPassive,
+        hasContributionsActive:
+            hasContributionsActive ?? this.hasContributionsActive,
+        hasContributionsPassive:
+            hasContributionsPassive ?? this.hasContributionsPassive,
         degree: degree ?? this.degree,
         firstName: firstName ?? this.firstName,
         secondName: secondName ?? this.secondName,
@@ -108,7 +113,9 @@ class Payload {
         surnameHusband: json["surname_husband"],
         identityCard: json["identity_card"],
         cityIdentityCard: json["city_identity_card"],
-        contributionsTotal: List<ContributionsTotal>.from(json["contributions_total"].map((x) => ContributionsTotal.fromJson(x))),
+        contributionsTotal: List<ContributionsTotal>.from(
+            json["contributions_total"]
+                .map((x) => ContributionsTotal.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -122,7 +129,8 @@ class Payload {
         "surname_husband": surnameHusband,
         "identity_card": identityCard,
         "city_identity_card": cityIdentityCard,
-        "contributions_total": List<dynamic>.from(contributionsTotal!.map((x) => x.toJson())),
+        "contributions_total":
+            List<dynamic>.from(contributionsTotal!.map((x) => x.toJson())),
       };
 }
 
@@ -144,14 +152,17 @@ class ContributionsTotal {
         contributions: contributions ?? this.contributions,
       );
 
-  factory ContributionsTotal.fromJson(Map<String, dynamic> json) => ContributionsTotal(
+  factory ContributionsTotal.fromJson(Map<String, dynamic> json) =>
+      ContributionsTotal(
         year: json["year"],
-        contributions: List<Contribution>.from(json["contributions"].map((x) => Contribution.fromJson(x))),
+        contributions: List<Contribution>.from(
+            json["contributions"].map((x) => Contribution.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "year": year,
-        "contributions": List<dynamic>.from(contributions.map((x) => x.toJson())),
+        "contributions":
+            List<dynamic>.from(contributions.map((x) => x.toJson())),
       };
 }
 
