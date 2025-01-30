@@ -34,7 +34,7 @@ import 'package:muserpol_pvt/services/services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:local_auth_android/local_auth_android.dart';
-import 'package:local_auth_ios/local_auth_ios.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 class ScreenLogin extends StatefulWidget {
@@ -107,9 +107,6 @@ class _ScreenLoginState extends State<ScreenLogin> {
             signInTitle: 'Autenticación Biometrica requerida',
             cancelButton: 'No Gracias',
             biometricHint: 'Verificar Identidad',
-          ),
-          const IOSAuthMessages(
-            cancelButton: 'No Gracias',
           ),
         ],
         options:
